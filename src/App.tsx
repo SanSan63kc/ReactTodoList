@@ -33,8 +33,10 @@ export default function App() {
     if (task){
       task.isDone = isDone
     }
+
+    let copy = [...tasks]
     
-    setTasks(tasks)
+    setTasks(copy)
   }
 
   function changeFilter(value:FilterValuesType){
@@ -57,6 +59,8 @@ export default function App() {
         removeTask={removeTask}
         changeFilter={changeFilter}
         addTask={addTask}
+        changeTaskStatus={changeStatus}
+        filter={filter}
         />
     </div>
   );

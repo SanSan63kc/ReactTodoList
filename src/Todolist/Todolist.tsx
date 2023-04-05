@@ -2,6 +2,7 @@ import React, { ChangeEvent, KeyboardEvent,  useState } from 'react';
 import styles from './Todolist.module.css'
 
 import { FilterValuesType } from "../App"
+import { isValidDateValue } from '@testing-library/user-event/dist/utils';
 
 export type TaskType = {
   id:string
@@ -15,17 +16,20 @@ type PropsType = {
   removeTask:(int:string)=>void
   addTask:(title:string)=>void
   changeFilter:(value:FilterValuesType)=>void
+  changeTaskStatus: (taskId: string, isDone: boolean)=> void
+  filter: FilterValuesType
 }
 
 export function Todolist(props:PropsType){
 
   let [newTaskTitle, setNewTaskTitle] = useState("")
+  let [error, setError] = useState<string|null>(null)
 
   function onKeyPressHandler (e:KeyboardEvent<HTMLInputElement>){
+    setError(null)
     if (e.ctrlKey && e.key==="Enter") {
-      props.addTask(newTaskTitle)
-      setNewTaskTitle("")
-    }
+      addTask()
+    } 
   }
 
   function onNewTitleChangeHandler(e:ChangeEvent<HTMLInputElement>){
@@ -34,8 +38,12 @@ export function Todolist(props:PropsType){
   
 
   function addTask(){
-    props.addTask(newTaskTitle)
-    setNewTaskTitle("")
+    if (newTaskTitle.trim() !== ""){
+      props.addTask(newTaskTitle)
+      setError("")
+    } else {
+      setError("Поле должно быть заполненным")
+    }
   }
 
   function onAllClickHandler(){
@@ -64,9 +72,15 @@ export function Todolist(props:PropsType){
             <input             
               onChange={onNewTitleChangeHandler}
               onKeyDown={onKeyPressHandler}
-              value={newTaskTitle} 
+              value={newTaskTitle}
+
+              /* затащить класс в правильный стилевой файл */
+              className={error ? "error" : ""}
             />
             <button className={styles.addTask__button} onClick={addTask}>+</button>
+            {
+            /* затащить класс в правильный стилевой файл */}
+            {error && <div className="error-message"> {error}</div> }
           </div>
         </div>
 
@@ -76,14 +90,17 @@ export function Todolist(props:PropsType){
               props.tasks.map(t =>{
 
                 function onClickHandler(){props.removeTask(t.id)}
-                function onChangeHandler(e:ChangeEvent<HTMLInputElement>){console.log("want to change")}
+                function onChangeHandler(e:ChangeEvent<HTMLInputElement>){
+                  console.log("want to change")
+                  props.changeTaskStatus(t.id, e.currentTarget.checked)
+                }
                                  
-                return <div className={styles.liElement}>
+                return <div className={styles.liElement + (t.isDone ? " "+ styles.isDone : "")}>
                   <li key ={t.id}>
                     <input type="checkbox" 
                           onChange={onChangeHandler}
                           checked={t.isDone}/>
-                    <span className={styles.taskTitle}>{t.title}</span>
+                    <span className={styles.taskTitle }>{t.title}</span>
                     <button className={styles.button__deleteTask} onClick={onClickHandler}>x</button>
                   </li>
                 </div>
@@ -95,9 +112,12 @@ export function Todolist(props:PropsType){
         
 
         <div>
-          <button className={styles.card__button} onClick={onAllClickHandler}>Все</button>
-          <button className={styles.card__button} onClick={onActiveClickHandler}>Активные</button>
-          <button className={styles.card__button} onClick={onCompletedlickHandler}>Выполненные</button>
+          <button className={styles.card__button + (props.filter === "all" ? " " + styles.active__filter: "")} 
+            onClick={onAllClickHandler}>Все</button>
+          <button className={styles.card__button + (props.filter === "active" ? " " + styles.active__filter: "")} 
+            onClick={onActiveClickHandler}>Активные</button>
+          <button className={styles.card__button + (props.filter === "completed" ? " " + styles.active__filter: "")} 
+            onClick={onCompletedlickHandler}>Выполненные</button>
         </div>
       </div>
     </div>
