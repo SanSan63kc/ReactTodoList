@@ -95,11 +95,3 @@ export function Todolist(props:PropsType){
   )
     
 }
-
-/* type EditableSpanPropsType = {
-  title: string
-}
-
-function EditableSpan(props: EditableSpanPropsType){
-  return <span className={styles.taskTitle }>{props.title}</span>
-} */
