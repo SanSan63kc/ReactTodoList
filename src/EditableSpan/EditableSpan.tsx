@@ -4,6 +4,7 @@ import styles from './EditableSpan.module.css'
 
 export type EditableSpanPropsType = {
     title: string
+    onChange:(newValue: string) => void
   }
   
 export function EditableSpan(props: EditableSpanPropsType){
@@ -12,11 +13,14 @@ export function EditableSpan(props: EditableSpanPropsType){
 
   function activateEditMode(){
     setEditMode(true)
+    setTitle(props.title)
+
   }
 
   function activateViewMode(){
     setEditMode(false)
-    console.log("фокус ушёл")
+    /* console.log("фокус ушёл") */
+    props.onChange(title)
   }
 
   function onChangeTitleHandler(e: ChangeEvent<HTMLInputElement>){
