@@ -1,0 +1,73 @@
+.card{
+    background-color: rgb(245, 245, 244);
+    border: 1px solid #000;
+    border-radius: 5px;    
+}
+
+.cardItem{
+    margin: 10px;
+}
+
+.isDone{
+    opacity: 0.5;
+}
+
+.cardItemTitle{
+    text-align: center;
+}
+
+.cardItemTitle h3{
+    text-decoration: underline;
+}
+
+.textInput{
+    margin-left: 15px;
+}
+
+.textInputInner{
+    text-align: center;
+}
+
+.card__button{
+    background-color: aliceblue;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.card__button:hover{
+    background-color: blue;
+    color: aliceblue;
+}
+
+.liElement{
+    list-style-type: none;
+}
+
+.taskTitle{
+    margin-left: 5px;
+}
+
+
+.button__deleteTask{
+    background-color: white;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.button__deleteTask:hover{
+    background-color: red;
+    color:white;
+}
+
+.addTask__button{
+    cursor: pointer;
+}
+
+.active__filter{
+    background-color: aquamarine;
+}
+
+.addTask__button:hover{
+    background-color: blue;
+    color: white;
+}
