@@ -1,9 +1,11 @@
 import React, { ChangeEvent, KeyboardEvent,  useState } from 'react';
-import styles from './Todolist.module.css'
+//import styles from './Todolist.module.css'
 import { AddItemForm } from '../AddItemForm/AddItemForm';
 
 import { FilterValuesType } from "../App"
 import { EditableSpan } from '../EditableSpan/EditableSpan';
+import { Button, Checkbox, IconButton } from '@mui/material';
+import { Delete } from '@mui/icons-material';
 
 export type TaskType = {
   id:string
@@ -52,17 +54,20 @@ export function Todolist(props:PropsType){
   }
 
   return (
-    <div className={styles.card}>
-      <div className={styles.cardItem}>
-        <div className={styles.cardItemTitle}>
+    <div /* className={styles.card} */>
+      <div /* className={styles.cardItem} */>
+        <div /* className={styles.cardItemTitle} */>
           <h3><EditableSpan title={props.title} onChange={changeTodolistTitle}/>
           </h3>
-          <button onClick={removeTodolist}>X</button>
+          {/* <button onClick={removeTodolist}>X</button> */}
+          <IconButton onClick={removeTodolist}>
+            <Delete/>
+          </IconButton>
         </div>
 
         <AddItemForm addItem={addTask}/>
 
-        <div className={styles.taskList}>
+        <div /* className={styles.taskList} */>
           <ul>
             {
               props.tasks.map(t =>{
@@ -78,15 +83,17 @@ export function Todolist(props:PropsType){
                   props.changeTaskTitle(t.id,newValue, props.id)
                 }
                                  
-                return <div className={styles.liElement + (t.isDone ? " "+ styles.isDone : "")}>
-                  <li key ={t.id}>
-                    <input type="checkbox" 
+                return <div>
+                  <div key ={t.id}>
+                    <Checkbox 
                           onChange={onChangeStatusHandler}
                           checked={t.isDone}/>
                     <EditableSpan title={t.title}
                         onChange={onChangeTitleHandler}/>
-                    <button className={styles.button__deleteTask} onClick={onClickHandler}>x</button>
-                  </li>
+                    <IconButton onClick={onClickHandler}>
+                      <Delete/>
+                    </IconButton>
+                  </div>
                 </div>
               }
               )  
@@ -94,14 +101,13 @@ export function Todolist(props:PropsType){
           </ul>
         </div>
         
-
         <div>
-          <button className={styles.card__button + (props.filter === "all" ? " " + styles.active__filter: "")} 
-            onClick={onAllClickHandler}>Все</button>
-          <button className={styles.card__button + (props.filter === "active" ? " " + styles.active__filter: "")} 
-            onClick={onActiveClickHandler}>Активные</button>
-          <button className={styles.card__button + (props.filter === "completed" ? " " + styles.active__filter: "")} 
-            onClick={onCompletedlickHandler}>Выполненные</button>
+          <Button variant={props.filter === "all" ? "contained": "text"}
+            onClick={onAllClickHandler}>Все</Button>
+          <Button color='primary' variant={props.filter === "active" ? "contained": "text"} 
+            onClick={onActiveClickHandler}>Активные</Button>
+          <Button color='secondary' variant={props.filter === "completed" ? "contained": "text"}
+            onClick={onCompletedlickHandler}>Выполненные</Button>
         </div>
       </div>
     </div>

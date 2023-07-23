@@ -1,5 +1,8 @@
+import { ControlPoint } from '@mui/icons-material';
+import { IconButton, TextField } from '@mui/material';
+import Button from '@mui/material/Button';
 import React, { ChangeEvent, KeyboardEvent,  useState } from 'react';
-import styles from './AddItemForm.module.css'
+//import styles from './AddItemForm.module.css'
 
 type AddItemFormPropsType ={
   addItem: (title: string)=>void
@@ -30,20 +33,20 @@ export function AddItemForm(props: AddItemFormPropsType){
     }
   }
 
-  return <div className={styles.textInput}>
-  <div className={styles.textInputInner}>
-    <input             
+  return <div >
+  <div>
+    <TextField 
+      variant='outlined'
+      label="Введите значение"            
       onChange={onNewTitleChangeHandler}
       onKeyDown={onKeyPressHandler}
       value={newTaskTitle}
-
-      /* затащить класс в правильный стилевой файл */
-      className={error ? "error" : ""}
+      error={!!error}
+      helperText={error}
     />
-    <button className={styles.addTask__button} onClick={addTask}>+</button>
-    {
-    /* затащить класс в правильный стилевой файл */}
-    {error && <div className="error-message"> {error}</div> }
+    <IconButton color={"primary"} onClick={addTask}>
+      <ControlPoint/>  
+    </IconButton>   
   </div>
 </div>
 }
